@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>URL Shortener</title>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Welcome to my URL Shortener</h1>
+            <p>Shorten and beautify your long URLs with this web interface with Rebrandly API. Enter a URL below to get started.</p>
+        </header>
+
+        <form id="urlForm">
+            <label for="urlInput">Enter URL:</label>
+            <input type="url" id="urlInput" placeholder="https://example.com" required>
+            <button type="button" onclick="ShortenAndDisplay()">Shorten URL</button>
+
+        </form>
+        <br>
+        <div id="resultMessage"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
