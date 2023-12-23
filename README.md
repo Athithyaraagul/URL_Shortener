@@ -1,2 +1,2 @@
-# URL_Shortener
+# URL Shortener
 Shorten and beautify your long URLs via a web interface with Rebrandly API
