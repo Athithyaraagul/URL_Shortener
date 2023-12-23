@@ -1,5 +1,5 @@
-// script.js
 async function shortenUrl(url) {
+    const apiKey = 'bd26d4c3894d40a19b4058dd8490ef5e'; // Replace with your Rebrandly API key
     const apiUrl = 'https://api.rebrandly.com/v1/links';
 
     try {
@@ -7,7 +7,7 @@ async function shortenUrl(url) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'apikey': 'bd26d4c3894d40a19b4058dd8490ef5e', //Rebrandly API key
+                'apikey': apiKey,
             },
             body: JSON.stringify({
                 destination: url,
@@ -15,6 +15,8 @@ async function shortenUrl(url) {
         });
 
         const responseData = await response.json();
+        console.log('Response Data:', responseData);
+
         if (response.ok) {
             return responseData.shortUrl;
         } else {
@@ -27,7 +29,7 @@ async function shortenUrl(url) {
     }
 }
 
-async function ShortenAndDisplay() {
+async function shortenAndDisplay() {
     const urlInput = document.getElementById('urlInput');
     const resultMessage = document.getElementById('resultMessage');
 
@@ -38,20 +40,10 @@ async function ShortenAndDisplay() {
         return;
     }
 
-    const beautifiedUrl = await shortenUrl(userUrl);
+    const shortenedUrl = await shortenUrl(userUrl);
 
-    if (beautifiedUrl) {
-        // Create an anchor element
-        const linkElement = document.createElement('a');
-        linkElement.href = beautifiedUrl;
-        linkElement.target = '_blank'; // Open the link in a new tab
-
-        // Set the text content of the anchor element
-        linkElement.textContent = beautifiedUrl;
-
-        // Append the anchor element to the resultMessage div
-        resultMessage.innerHTML = 'Shorten URL: ';
-        resultMessage.appendChild(linkElement);
+    if (shortenedUrl) {
+        resultMessage.innerText = `Shortened: ${shortenedUrl}`;
     } else {
         resultMessage.innerText = 'Error shortening the URL.';
     }
