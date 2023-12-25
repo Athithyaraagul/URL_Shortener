@@ -1,35 +1,26 @@
-async function shortenUrl(url) {
-    const apiKey = 'bd26d4c3894d40a19b4058dd8490ef5e'; // Replace with your Rebrandly API key
-    const apiUrl = 'https://api.rebrandly.com/v1/links';
+async function shortenUrlWithIsGd(url) {
+    const apiUrl = 'https://is.gd/create.php';
 
     try {
         const response = await fetch(apiUrl, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'apikey': apiKey,
-            },
-            body: JSON.stringify({
-                destination: url,
-            }),
+            body: new URLSearchParams({ format: 'json', url }),
         });
 
-        const responseData = await response.json();
-        console.log('Response Data:', responseData);
-
         if (response.ok) {
-            return responseData.shortUrl;
+            const data = await response.json();
+            return data.shorturl;
         } else {
-            console.error('Error response from API:', responseData);
+            console.error('Error response from Is.gd API:', response.status);
             return null;
         }
     } catch (error) {
-        console.error(`Error making API request: ${error.message}`);
+        console.error(`Error making Is.gd API request: ${error.message}`);
         return null;
     }
 }
 
-async function shortenAndDisplay() {
+async function ShortenAndDisplay() {
     const urlInput = document.getElementById('urlInput');
     const resultMessage = document.getElementById('resultMessage');
 
@@ -40,15 +31,20 @@ async function shortenAndDisplay() {
         return;
     }
 
-    const shortenedUrl = await shortenUrl(userUrl);
+    const shortenedUrl = await shortenUrlWithIsGd(userUrl);
 
     if (shortenedUrl) {
-        const urlLink = document.createElement('a');
-        urlLink.target = '_blank';
-        urlLink.href = shortenedUrl;
-        urlLink.textContent = shortenedUrl;
-        resultMessage.innerHTML = "Shortened URL:";
-        resultMessage.appendChild(urlLink);
+        // Create an anchor element
+        const linkElement = document.createElement('a');
+        linkElement.href = shortenedUrl;
+        linkElement.target = '_blank'; // Open the link in a new tab
+
+        // Set the text content of the anchor element
+        linkElement.textContent = shortenedUrl;
+
+        // Append the anchor element to the resultMessage div
+        resultMessage.innerHTML = 'Shortened URL: ';
+        resultMessage.appendChild(linkElement);
     } else {
         resultMessage.innerText = 'Error shortening the URL.';
     }
