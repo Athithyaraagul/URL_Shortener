@@ -43,7 +43,12 @@ async function shortenAndDisplay() {
     const shortenedUrl = await shortenUrl(userUrl);
 
     if (shortenedUrl) {
-        resultMessage.innerText = `Shortened: ${shortenedUrl}`;
+        const urlLink = document.createElement('a');
+        urlLink.target = '_blank';
+        urlLink.href = shortenedUrl;
+        urlLink.textContent = shortenedUrl;
+        resultMessage.innerHTML = "Shortened URL:";
+        resultMessage.appendChild(urlLink);
     } else {
         resultMessage.innerText = 'Error shortening the URL.';
     }
